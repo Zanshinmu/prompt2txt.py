@@ -4,12 +4,6 @@ ___
 Use case: You have a large number of rendered png images in a directory created with A1111 or Draw Things which you need to extract the prompts from. 
 ___
 
-## DualModel *experimental*
-Two-model processing, Llava 1.5 and Mixtral. Mixtral is running on Ollama, Llava on LLama C++ Python
-Mixtral parses the prompt and queries LLava for each element then Mixtral constructs a caption from the responses.
-Why Ollama?  Two instances of Llama C++ python do not work.  Ollama works fine even though it has a llama c++ back-end.
-DualModel is being released as experimental: it is slow and has a tendency to go off-course over time,
-but that may be fixable with grammar and optimizations. 
 
 # Installation Guide
 
