@@ -1,4 +1,4 @@
-# prompt2txt.py v0.2  Author: zanshinmu
+# prompt2txt.py v0.4  Author: zanshinmu
 # Extracts embedded prompts from Draw Things or Automatic1111 to a txt file for each image in the specified directory.
 #
 # Before running this script, ensure that exiftool is installed on your system.
@@ -19,19 +19,27 @@ import glob
 from tqdm import tqdm
 from multiprocessing import Pool
 
+# Compiling regex here
+tag_regex = re.compile(r'<.*?>')
+broken_regex = re.compile(r'(^|\s)<\S*?[>\s]')
+spec_regex = re.compile(r'^[,\s]+')
+
 def get_png_files(directory):
     png_files = glob.glob(os.path.join(directory, '*.png'))
     return png_files
 
-def process_prompt_string(input_string):
+def clean_prompt_string(input_string):
     # Remove everything in "<>" using regular expression
-    clean_string = re.sub(r'<.*?>', '', input_string)
+    clean_string = re.sub(tag_regex, '', input_string)
+    
+    # Remove broken tags
+    clean_string = re.sub(broken_regex, '', clean_string)
     
     # Remove all instances of the string "BREAK"
     clean_string = clean_string.replace('BREAK', '')
     
     # Remove spaces, commas, and other leading characters
-    clean_string = re.sub(r'^[,\s]+', '', clean_string)
+    clean_string = re.sub(spec_regex, '', clean_string)
     
     # Extract substring until '\n'
     index = clean_string.find('\n')
@@ -44,7 +52,7 @@ def process_prompt_string(input_string):
          
 def extract_a1_prompt(parameters):
     # Parse the string in parameters
-    comment_data = process_prompt_string(parameters)
+    comment_data = clean_prompt_string(parameters)
     if not comment_data:
         print ("Error parsing prompt")
         return None
@@ -135,6 +143,7 @@ def main(directory):
                 
 
 if __name__ == "__main__":
+    #get directory and process it
     directory = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()
     if os.path.isdir(directory):
         main(directory)
