@@ -1,83 +1,87 @@
-# prompt2txt.py
-## Extracts Draw Things and A1111 prompts to txt files corresponding to PNG files in a specified directory
-___
-Use case: You have a large number of rendered png images in a directory created with A1111 or Draw Things which you need to extract the prompts from. 
-___
+# prompt2txt
 
+A tool for extracting Draw Things and Automatic1111 (A1111) prompts from PNG files and saving them as corresponding text files.
 
-# Installation Guide
+## Use Case
 
-This guide provides instructions for setting up the necessary requirements for `prompt2txt.py`
+You have a large number of rendered PNG images created with Automatic1111 or Draw Things and need to extract the embedded prompts from them.
 
+## Installation
 
-## Setting Up Python Virtual Environment and Installing Dependencies
+### Using pip
 
-This repository utilizes Python 3 and relies on specific dependencies to function properly. To ensure a consistent environment and manage these dependencies efficiently, it's recommended to set up a Python virtual environment. This isolates the project's dependencies from other Python projects on your system.
-
-### Setting Up a Python Virtual Environment
-
-1. **Install Python 3**: If you haven't already, [download and install Python 3](https://www.python.org/downloads/) for your operating system.
-
-2. **Install `virtualenv` (if not already installed)**: `virtualenv` is a tool used to create isolated Python environments. If you haven't installed it yet, you can do so via pip, Python's package installer. Run the following command in your terminal:
-
-    ```
-    pip install virtualenv
-    ```
-
-3. **Create a Virtual Environment**: Navigate to your project directory in the terminal and create a new virtual environment by running:
-
-    ```
-    python3 -m venv venv
-    ```
-
-    This command will create a folder named `venv` in your project directory, containing the Python interpreter and standard library for your virtual environment.
-
-4. **Activate the Virtual Environment**: Before you can install dependencies or run your project within the virtual environment, you need to activate it. On macOS/Linux, run:
-
-    ```
-    source venv/bin/activate
-    ```
-
-    On Windows, run:
-
-    ```
-    venv\Scripts\activate
-    ```
-
-    Once activated, you should see `(venv)` prefixed to your terminal prompt, indicating that you are now working within the virtual environment.
-
-### Installing Dependencies
-
-This project uses a `requirements.txt` file to specify its dependencies. To install these dependencies, ensure that your virtual environment is activated, and then run:
-
-```
-pip install -r requirements.txt
+```bash
+pip install prompt2txt
 ```
 
-This command will install all the required dependencies listed in the `requirements.txt` file.
+### From Source
 
-### Deactivating the Virtual Environment
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/prompt2txt.git
+   cd prompt2txt
+   ```
 
-Once you're done working on your project, you can deactivate the virtual environment by simply running:
-
-```
-deactivate
-```
-
-This will return you to your system's default Python environment.
-
-By following these steps, you'll have a clean, isolated environment for your Python project, with all the necessary dependencies installed.
-
-
-# Caveats
-
-- A1111 may require enabling the embedded metadata feature to produce usable metadata. 
+2. Install using Poetry:
+   ```bash
+   poetry install
+   ```
 
 ## Usage
 
-The `prompt2txt.py` script can be used as follows:
+### Command Line
 
-- Process a directory of images into prompt files:
-  ```bash
-  python3 prompt2txt.py /path/to/image/folder/
-  ```
+```bash
+# Using the installed package
+prompt2txt /path/to/image/folder/
+
+# Using Poetry in the project directory
+poetry run prompt2txt /path/to/image/folder/
+```
+
+### Python API
+
+```python
+from prompt2txt import PromptExtractor
+
+extractor = PromptExtractor()
+extractor.process_directory("/path/to/image/folder/")
+```
+
+## Features
+
+- Extracts prompts from both Draw Things and Automatic1111 generated images
+- Processes images in parallel for faster extraction
+- Creates text files with the same name as the original PNG files
+- Cleans and formats the extracted prompts
+
+## Requirements
+
+- Python 3.8+
+- Dependencies (automatically installed):
+  - Pillow
+  - tqdm
+
+## Caveats
+
+- Automatic1111 may require enabling the "Save metadata to images" option to embed usable metadata.
+- Some images may not contain extractable prompt data.
+
+## Development
+
+This project uses Poetry for dependency management and packaging:
+
+```bash
+# Install development dependencies
+poetry install
+
+# Run tests
+poetry run pytest
+
+# Build the package
+poetry build
+```
+
+## License
+
+[MIT License](LICENSE)

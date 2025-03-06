@@ -1,0 +1,28 @@
+[project]
+name = "prompt2txt"
+version = "0.2.0"
+description = "Extracts Draw Things and A1111 prompts to txt files cfrom PNG files in a specified  path, useful for captioning"
+authors = [
+    {name = "David Van de Ven",email = "zanshin.g1@gmail.com"}
+]
+license = {text = "GPLv3"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "tqdm (>=4.67.1,<5.0.0)",
+    "pillow (>=11.1.0,<12.0.0)"
+]
+
+[project.urls]
+Repository = "https://github.com/Zanshinmu/prompt2txt"
+Issues = "https://github.com/Zanshinmu/llava-caption/prompt2txt"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+prompt2txt = "prompt2txt.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
